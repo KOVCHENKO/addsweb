@@ -28,7 +28,7 @@ class PiFeeder:
             self.ser = serial.Serial(port=self.port, baudrate=self.baudrate, timeout=5)
             # self.ser = os.popen('gpspipe -r','r')
             tm = time.time() + 10
-            while time.time() < tm:
+            while True:
                 line = self.ser.readline()
                 # logging.info( "found feeder on %s" % self.port)
                 print(line)
