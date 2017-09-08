@@ -1,32 +1,28 @@
-from __future__ import print_function
-from twisted.internet import reactor, protocol
+from twisted.web import server, resource, http
 
-class EchoClient(protocol.Protocol):
 
-   # Here is the message which should be sent
-    def connectionMade(self):
-        self.transport.write("Connection has been made")
+class RootResource(resource.Resource):
+    def __init__(self):
+        resource.Resource.__init__(self)
+        self.putChild('coordinates', TestHandler())
 
-    def dataReceived(self, data):
-        print("Server said: ", data)
-        self.transport.write(b'information is here')
 
-def connectionLost(self, reason):
-        print("Connection Lost")
+class TestHandler(resource.Resource):
+    isLeaf = True
 
-class EchoFactory(protocol.ClientFactory):
-    protocol = EchoClient
+    def __init__(self):
+        resource.Resource.__init__(self)
 
-    def clientConnectionFailed(self, connector, reason):
-        print("Connection failed - goodbye!")
-        reactor.stop()
+    def render_GET(self, request):
+        return self.render_POST(request)
 
-    def clientConnectionLost(self, connector, reason):
-        print("Connection lost - goodbye!")
-        reactor.stop()
+    def render_POST(self, request):
+        return "hello world!"
 
-# connection to a server running on port 9000
-if __name__ == '__main__':
-    f = EchoFactory()
-    reactor.connectTCP("localhost", 9005, f)
+
+if __name__ == "__main__":
+    import sys
+    from twisted.internet import reactor
+
+    reactor.listenTCP(9005, server.Site(RootResource()))
     reactor.run()
