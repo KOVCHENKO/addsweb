@@ -1,4 +1,4 @@
-from pifeeder import PiFeeder
+from auxiliary.pifeeder import PiFeeder
 
 piFeeder = PiFeeder()
 piFeeder.open()
