@@ -30,8 +30,8 @@ def handle_line(line):
     lon = float(splitted_string[5])
     formatted_lat = round((lat / 100) + (lat % 100) / 60, 6)
     formatted_lon = round((lon / 100) + (lon % 100) / 60, 6)
-    print("latitude: {0}".format(formatted_lat))
+    print("latitude: {0}".format(decoded_line))
     print("longitude: {0}".format(formatted_lon))
     print("Status: {0}".format(splitted_string[2]))
 
-    return (formatted_lat, formatted_lon, splitted_string[2])  
+    return (lat, lon, splitted_string[2])  
